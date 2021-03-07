@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  labels:
+    app: mariadb
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.5
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 3306
+          envFrom:
+          - configMapRef:
+              name: mariadb-config
+          - secretRef:
+              name: mariadb-secrets
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mariadb-data
+      volumes:
+      - name: mariadb-data
+        hostPath:
+          path: /data/mariadb
+          type: Directory
+status: {}

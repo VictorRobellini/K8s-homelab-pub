@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: photoprism-config
+  namespace: default
+data:
+  PHOTOPRISM_TITLE: PhotoPrism
+  PHOTOPRISM_SUBTITLE: Browse your life
+  PHOTOPRISM_DESCRIPTION: Personal Photo Management powered by Go and Google TensorFlow. Free and open-source.
+  PHOTOPRISM_UPLOAD_NSFW: "true"
+  PHOTOPRISM_HIDE_NSFW: "false"
+  PHOTOPRISM_EXPERIMENTAL: "false"
+  PHOTOPRISM_DEBUG: "false"
+  PHOTOPRISM_READONLY: "false"
+  PHOTOPRISM_PUBLIC: "false"
+  PHOTOPRISM_ADMIN_PASSWORD: ichangtedthis
+  PHOTOPRISM_WEBDAV_PASSWORD: ichangtedthistoo
+  PHOTOPRISM_DATABASE_DRIVER: mysql
+  PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"
+  PHOTOPRISM_DATABASE_NAME: "photoprism"
+  PHOTOPRISM_DATABASE_USER: "photoprism"
+  PHOTOPRISM_DATABASE_PASSWORD: "mypassword"
+  PHOTOPRISM_SIDECAR_HIDDEN: "true"
+  PHOTOPRISM_THUMB_FILTER: lanczos
+  PHOTOPRISM_THUMB_UNCACHED: "false"
+  PHOTOPRISM_THUMB_SIZE: "2048"
+  PHOTOPRISM_HTTP_PORT: "80"
+  PHOTOPRISM_CACHE_PATH: /assets/cache
+  PHOTOPRISM_IMPORT_PATH: /assets/photos/import
+  PHOTOPRISM_EXPORT_PATH: /assets/photos/export
+  PHOTOPRISM_ORIGINALS_PATH: /assets/photos/originals

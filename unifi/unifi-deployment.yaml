@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: unifi
+  name: unifi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unifi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: unifi
+    spec:
+      containers:
+      - name: unifi
+        image: linuxserver/unifi-controller:latest
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 443
+          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        - containerPort: 8843
+          protocol: TCP
+        - containerPort: 8880
+          protocol: TCP
+        - containerPort: 6789
+          protocol: TCP
+        - containerPort: 5514
+          protocol: TCP
+        - containerPort: 3478
+          protocol: UDP
+        - containerPort: 10001
+          protocol: UDP
+        - containerPort: 1900
+          protocol: UDP
+        volumeMounts:
+        - mountPath: /config
+          name: unifi-data
+      hostname: unifi
+      restartPolicy: Always
+      volumes:
+      - name: unifi-data
+        hostPath:
+          path: /data/unifi
+          type: Directory
+status: {}

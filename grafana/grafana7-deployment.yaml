@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  annotations:
+  labels:
+    app: grafana
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - env:
+        - name: GF_ANALYTICS_REPORTING_ENABLED
+          value: "false"
+        - name: GF_DEFAULT_INSTANCE_NAME
+          value: grafana
+        - name: GF_INSTALL_PLUGINS
+          value: grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel,grafana-worldmap-panel
+        - name: GF_PATHS_DATA
+          value: /var/lib/grafana
+        - name: GF_SERVER_DOMAIN
+          value: mydomain.com
+        - name: GF_SERVER_ENABLE_GZIP
+          value: "true"
+        - name: TZ
+          value: America/New_York
+        image: grafana/grafana:7.4.3
+        imagePullPolicy: "Always"
+        name: grafana
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: grafana-data
+      hostname: grafana
+      restartPolicy: Always
+      volumes:
+      - name: grafana-data
+        hostPath:
+          path: /data/grafana7
+          type: Directory
+status: {}

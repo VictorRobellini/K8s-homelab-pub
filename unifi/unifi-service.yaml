@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi
+  namespace: default
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "UNIFI"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: "dev-com"
+    port: 8080
+    targetPort: 8080
+  - name: "http-ui"
+    port: 8443
+    targetPort: 8443
+  - name: "https-ui"
+    port: 443
+    targetPort: 8443
+  - name: "https-guest"
+    port: 8843
+    targetPort: 8843
+  - name: "http-guest"
+    port: 8880
+    targetPort: 8880
+  - name: "mobile-tp"
+    port: 6789
+    targetPort: 6789
+  - name: "rsyslog"
+    port: 5514
+    targetPort: 5514
+  selector:
+    app: unifi
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-udp
+  namespace: default
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "UNIFI"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: "stun"
+    port: 3478
+    protocol: UDP
+    targetPort: 3478
+  - name: "ap-discovery"
+    port: 10001
+    protocol: UDP
+    targetPort: 10001
+  - name: "make-discoverable"
+    port: 1900
+    protocol: UDP
+    targetPort: 1900
+  selector:
+    app: unifi
+status:
+  loadBalancer: {}

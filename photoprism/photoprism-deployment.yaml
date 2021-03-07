@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  labels:
+    app: photoprism
+  name: photoprism
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photoprism
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: photoprism
+    spec:
+      containers:
+        - name: photoprism
+          image: photoprism/photoprism:20201227
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+          envFrom:
+          - configMapRef:
+              name: photoprism-config
+          - secretRef:
+              name: mariadb-secrets
+          volumeMounts:
+          - mountPath: /assets/photos/originals
+            name: photoprism
+            subPath: media/photos
+          - mountPath: /assets/cache
+            name: photoprism
+            subPath: cache
+          - mountPath: /assets/photos/import
+            name: photoprism
+            subPath: import
+          - mountPath: /assets/photos/export
+            name: photoprism
+            subPath: export
+          - mountPath: /photoprism/storage
+            name: photoprism-storage
+      volumes:
+      - name: photoprism
+        nfs:
+          path: /photoprism
+          server: nicenas.home.netfront.io
+      - name: photoprism-storage
+        hostPath:
+          path: /data/photoprism/storage/
+          type: Directory
+status: {}
