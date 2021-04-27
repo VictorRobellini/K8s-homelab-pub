@@ -21,6 +21,8 @@ spec:
       - env:
         - name: INFLUXDB_HTTP_AUTH_ENABLED 
           value: "true"
+        - name: INFLUXDB_MONITOR_STORE_ENABLED
+          value: "false"
         - name: INFLUXDB_ADMIN_PASSWORD
           value: adminpass
         - name: INFLUXDB_ADMIN_USER
@@ -37,7 +39,7 @@ spec:
           value: pfpassword
         - name: TZ
           value: America/New_York
-        image: influxdb:1.8.3-alpine
+        image: influxdb:1.8.5-alpine
         imagePullPolicy: "Always"
         name: influxdb
         ports:
